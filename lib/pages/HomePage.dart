@@ -2,6 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'NotificationsPage.dart';
+import 'ProfilePage.dart';
+import 'SearchPage.dart';
+import 'TimeLinePage.dart';
+import 'UploadPage.dart';
+
 
 final GoogleSignIn gSignIn = GoogleSignIn();
 class HomePage extends StatefulWidget {
@@ -11,10 +17,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool isSigned = false;
-
+  PageController pageController;
+  int getPageIndex =0;
   controlSignIn(GoogleSignInAccount googleSignInAccount) async{
     if(googleSignInAccount!=null){
       setState(() {
+        print(googleSignInAccount.displayName);
         isSigned=true;
       });
     }
@@ -30,14 +38,44 @@ class _HomePageState extends State<HomePage> {
   logoutUser(){
     gSignIn.signOut();
   }
-  Widget buldHomeScreen(){
-    return RaisedButton.icon(
-      icon: Icon(Icons.close),
-      label: Text("Sign Out"),
-      onPressed: (){
-        logoutUser();
-      },
+  whenPageChange(int pageIndex){
+    setState(() {
+      this.getPageIndex=pageIndex;
+    });
 
+  }
+  changePage(int pageIndex){
+    pageController.animateToPage(pageIndex, duration: Duration(microseconds: 300), curve: Curves.bounceInOut);
+  }
+  Scaffold buldHomeScreen(){
+    return Scaffold(
+      body: PageView(
+        children: [
+          TimeLinePage(),
+          SearchPage(),
+          UploadPage(),
+          NotificationsPage(),
+          ProfilePage(),
+        ],
+        controller: pageController,
+        onPageChanged: whenPageChange,
+        physics: NeverScrollableScrollPhysics(),
+
+      ),
+      bottomNavigationBar: CupertinoTabBar(
+        currentIndex: getPageIndex,
+        onTap: changePage,
+        activeColor: Colors.white,
+        inactiveColor: Colors.blueGrey,
+        backgroundColor: Theme.of(context).accentColor,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home)),
+          BottomNavigationBarItem(icon: Icon(Icons.search)),
+          BottomNavigationBarItem(icon: Icon(Icons.photo_camera)),
+          BottomNavigationBarItem(icon: Icon(Icons.favorite)),
+          BottomNavigationBarItem(icon: Icon(Icons.person)),
+        ],
+      ),
     );
   }
   Scaffold buildSignInScreen(){
@@ -85,9 +123,14 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+  void dispose(){
+    pageController.dispose();
+    super.dispose();
+}
   @override
   void initState() {
     // TODO: implement initState
+    pageController=PageController();
     gSignIn.onCurrentUserChanged.listen((gSigninAccount) {
       controlSignIn(gSigninAccount);
     },onError: (error){
