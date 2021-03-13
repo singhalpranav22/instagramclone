@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "516675416999",
+    "project_id": "instagram-84b5e",
+    "storage_bucket": "instagram-84b5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516675416999:android:7c28bab79712716139bc82",
+        "android_client_info": {
+          "package_name": "com.pranav.instagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516675416999-vfmiikb7md68b27reaiuv264tl13auvo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pranav.instagram",
+            "certificate_hash": "a2be3063343d8bbffcb42543b13874c0ab69d660"
+          }
+        },
+        {
+          "client_id": "516675416999-a03bcgqe73vfg8v0omn7sas85j1jt0aa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOQ4hWHaEOubK6WJ8v3DcWNb51C8HCeMY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516675416999-a03bcgqe73vfg8v0omn7sas85j1jt0aa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
