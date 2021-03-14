@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/HeaderPage.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -8,6 +10,8 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Text("Profile Page goes here.");
+    return Scaffold(
+      appBar: header(context,title: "Profile"),
+    );
   }
 }

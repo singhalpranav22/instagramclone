@@ -1,7 +1,10 @@
+import 'package:buddiesgram/models/user.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'CreateAccountPage.dart';
 import 'NotificationsPage.dart';
 import 'ProfilePage.dart';
 import 'SearchPage.dart';
@@ -10,6 +13,9 @@ import 'UploadPage.dart';
 
 
 final GoogleSignIn gSignIn = GoogleSignIn();
+final userReference= Firestore.instance.collection("users");
+final DateTime timestamp = DateTime.now();
+User currentUser;
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -20,7 +26,9 @@ class _HomePageState extends State<HomePage> {
   PageController pageController;
   int getPageIndex =0;
   controlSignIn(GoogleSignInAccount googleSignInAccount) async{
+
     if(googleSignInAccount!=null){
+      await saveUserInfoToFireStore();
       setState(() {
         print(googleSignInAccount.displayName);
         isSigned=true;
@@ -31,6 +39,25 @@ class _HomePageState extends State<HomePage> {
         isSigned=false;
       });
     }
+  }
+  saveUserInfoToFireStore() async{
+     final GoogleSignInAccount gCurrentUser = gSignIn.currentUser;
+     DocumentSnapshot documentSnapshot = await userReference.document(gCurrentUser.id).get();
+     if(!documentSnapshot.exists){
+       final username = await Navigator.push(context,MaterialPageRoute(builder: (context) => CreateAccountPage()));
+       userReference.document(gCurrentUser.id).setData({
+         "id" :  gCurrentUser.id,
+         "profileName" : gCurrentUser.displayName,
+         "username" : username,
+         "url" : gCurrentUser.photoUrl,
+         "email" : gCurrentUser.email,
+         "bio" : "",
+         "timestamp" : timestamp
+       });
+       documentSnapshot = await userReference.document(gCurrentUser.id).get();
+     }
+    currentUser = User.fromDocument(documentSnapshot);
+
   }
   loginUser(){
     gSignIn.signIn();
@@ -51,7 +78,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: PageView(
         children: [
-          TimeLinePage(),
+//          TimeLinePage(),
+        RaisedButton(onPressed: (){
+          logoutUser();
+        },
+        child: Text("Sign out !"),),
           SearchPage(),
           UploadPage(),
           NotificationsPage(),
