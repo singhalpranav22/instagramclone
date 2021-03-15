@@ -1,6 +1,7 @@
 
 
 import 'package:buddiesgram/models/user.dart';
+import 'package:buddiesgram/pages/ProfilePage.dart';
 import 'package:buddiesgram/widgets/ProgressWidget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -134,7 +135,7 @@ class UserResult extends StatelessWidget {
          children: [
            GestureDetector(
              onTap: (){
-               print("Tapped on " + user.profileName);
+               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(user: user,)));
              },
              child: ListTile(
                leading: CircleAvatar(backgroundColor: Colors.black, backgroundImage: CachedNetworkImageProvider(user.url),),
