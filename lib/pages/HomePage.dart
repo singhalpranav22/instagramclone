@@ -81,7 +81,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: PageView(
         children: [
-          TimeLinePage(),
+//          TimeLinePage(),
+        Center(
+          child: Container(
+            child:   FlatButton(onPressed: (){ logoutUser();}, child: Text("Sign Out",style: TextStyle(
+              color: Colors.white,
+            ),)),
+          ),
+        ),
+
           SearchPage(),
           UploadPage(user: currentUser,storageReference: storageReference,),
           NotificationsPage(),

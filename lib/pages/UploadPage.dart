@@ -220,7 +220,7 @@ class _UploadPageState extends State<UploadPage> with AutomaticKeepAliveClientMi
            width: MediaQuery.of(context).size.width * 0.8,
            child: Center(
              child: AspectRatio(
-               aspectRatio: 16/9,
+               aspectRatio: 1.4,
                child: Container(
                  decoration: BoxDecoration(
                    image: DecorationImage(
