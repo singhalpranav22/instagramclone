@@ -1,5 +1,6 @@
 import 'package:buddiesgram/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,6 +15,8 @@ import 'UploadPage.dart';
 
 final GoogleSignIn gSignIn = GoogleSignIn();
 final userReference= Firestore.instance.collection("users");
+final postReference= Firestore.instance.collection("posts");
+final StorageReference storageReference = FirebaseStorage.instance.ref().child("Posts Pictures");
 final DateTime timestamp = DateTime.now();
 User currentUser;
 class HomePage extends StatefulWidget {
@@ -84,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         },
         child: Text("Sign out !"),),
           SearchPage(),
-          UploadPage(),
+          UploadPage(user: currentUser,storageReference: storageReference,),
           NotificationsPage(),
           ProfilePage(),
         ],
